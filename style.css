@@ -37,12 +37,15 @@ input {
 }
 button {
 	padding: 10px;
-	background-color: #007bff;
 	color: #fff;
+	background-color: #007bff;
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
 	width: 100%;
+}
+button:hover{
+	background-color: #0074ef;
 }
 
 .table-container {
@@ -61,6 +64,10 @@ button {
 }
 .search-container {
 	max-width: 300px;
+	display: flex;
+}
+.sort{
+	width: 100px;
 }
 table {
 	width: 100%;

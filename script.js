@@ -1,7 +1,9 @@
 const studentForm = document.getElementById('studentForm');
 const studentTableBody = document.querySelector('#studentTable tbody');
+const sortBtn = document.getElementById('sortBtn');
 
-let students = [];
+let students = JSON.parse(localStorage.getItem("students")) || [];
+renderTable(students);
 
 // Render Table
 function renderTable(data) {
@@ -11,7 +13,7 @@ function renderTable(data) {
       <td>${student.name}</td>
       <td>${student.age}</td>
       <td>${student.course}</td>
-      <td></td>
+      <td><button onclick="deleteStudent(0)">Delete</button></td>
     </tr>`;
 		studentTableBody.innerHTML += row;
 	});
@@ -25,40 +27,58 @@ studentForm.addEventListener('submit', (e) => {
 	const course = document.getElementById('course').value.trim();
 
 	students.push({ name, age, course });
-
+	saveStudent();
 	renderTable(students);
 	studentForm.reset();
 });
 
+function saveStudent(){
+	localStorage.setItem("students",
+	JSON.stringify(students));
+}
+
 // **Array Methods Examples**
 
-// Map: Get all student names
-function getStudentNames() {
-	return students.map((student) => student.name);
-}
-
-// Filter: Get students older than 20
-function studentsAbove20() {
-	return students.filter((student) => student.age > 20);
-}
-
-// Sort: Sort students by age ascending
-function sortByAge() {
-	students.sort((a, b) => a.age - b.age);
+//Delete a student
+function deleteStudent(index) {
+	students.splice(index, 1);
+	saveStudent();
 	renderTable(students);
 }
 
-// Reverse: Reverse table order
-function reverseTable() {
-	students.reverse();
-	renderTable(students);
+// Filter: Arrange student by name
+function filterStudent() {
+	const search = document.getElementById('search').value.toLowerCase();
+	let filtered = students.filter(student => student.name.toLowerCase().includes(search));
+	renderTable(filtered);
 }
 
-// Example Usage
-// console.log(getStudentNames());
-// console.log(studentsAbove20());
-// sortByAge();
-// reverseTable();
+// Sort: Sort students by alphabetically
+let ascending = true;
+function sortByName() {
+	if(ascending) {
+		students.sort((a, b) => a.name.localeCompare(b.name));
+		renderTable(students);
+		sortBtn.textContent = 'Sort A - Z';
+	}
+	else {
+		students.reverse()
+		renderTable(students)
+		sortBtn.textContent = 'Sort Z - A';
+	}
+	ascending = !ascending;
+}
+
+//Sort: list of courses
+function displayCourses() {
+	return students.map((student) => student.course)
+}
+console.log(displayCourses());
+
+//Sort: Unique list of courses
+const uniqueCourses = [...new Set(students.map((student) => student.course))]
+console.log(uniqueCourses);
+
 
 // 4. Practical Assignments / Tasks for Students
 // Task 1: Add a Delete button for each student row.

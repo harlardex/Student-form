@@ -17,7 +17,7 @@
 			</div>
 			<div class="form-group">
 				<label for="age">Age:</label><br />
-				<input type="number" id="age" placeholder="Age" required />
+				<input type="number" id="age" placeholder="Age" required min="1"/>
 			</div>
 			<div class="form-group">
 				<label for="course">Course:</label><br />
@@ -33,7 +33,8 @@
 			<div class="table-header">
 				<h2>Students</h2>
 				<div class="search-container">
-					<input type="text" id="search" placeholder="Search by name" required />
+					<input type="text" id="search" placeholder="Search by name" required onkeyup="filterStudent()" />
+					<button class="sort" id="sortBtn" onclick="sortByName()">Sort A - Z</button>
 				</div>
 			</div>
 			<table border="1" id="studentTable">
